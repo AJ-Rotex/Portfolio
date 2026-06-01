@@ -347,6 +347,9 @@
             justify-content: space-between;
             align-items: flex-end;
             margin-bottom: 4rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .works-title {
@@ -364,6 +367,9 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .work-card {
@@ -379,6 +385,31 @@
             aspect-ratio: 16/9;
         }
 
+        .work-card:nth-child(3),
+        .work-card:nth-child(4),
+        .work-card:nth-child(5) {
+            aspect-ratio: 3/4;
+        }
+
+        /* SLIDESHOW STYLES */
+        .slideshow-card .work-visual {
+            position: relative;
+        }
+
+        .slideshow-card .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slideshow-card .slide.active {
+            opacity: 1;
+        }
+
         .work-visual {
             width: 100%;
             height: 100%;
@@ -389,7 +420,8 @@
             transition: transform 0.5s cubic-bezier(.25, .46, .45, .94);
         }
 
-        .work-visual img {
+        .work-visual img,
+        .work-visual video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -1019,7 +1051,7 @@
             <!-- Card 2 -->
             <div class="work-card">
                 <div class="work-visual v2">
-                    <img src="assets/image.png" alt="UI Design">
+                    <video src="assets/Final Render (1).mp4" autoplay muted loop playsinline></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">UI Design</div>
@@ -1054,13 +1086,15 @@
             </div>
 
             <!-- Card 5 -->
-            <div class="work-card">
+            <div class="work-card slideshow-card">
                 <div class="work-visual v5">
-                    <img src="assets/yathra.jpg" alt="Malayalam Typography Poster">
+                    <img src="assets/yathra.jpg" class="slide active" alt="Poster">
+                    <img src="assets/porsche.jpg" class="slide" alt="Poster 2">
+                    <img src="assets/ds.jpg" class="slide" alt="Poster 3">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Social Media</div>
-                    <div class="work-title-card">Malayalam Typography Poster</div>
+                    <div class="work-title-card">Poster</div>
                 </div>
                 <div class="work-arrow">↗</div>
             </div>
@@ -1260,6 +1294,19 @@
                     }, 5000);
                 });
         }
+
+        // Slideshow in Card 5 (crossfade rotation)
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slideshow-card .slide');
+            let currentSlide = 0;
+            if (slides.length > 1) {
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 3000);
+            }
+        });
     </script>
 </body>
 
