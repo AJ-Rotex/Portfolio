@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap"
         rel="stylesheet">
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <style>
         :root {
             --ink: #0d0d0d;
@@ -154,19 +155,31 @@
             font-weight: 800;
             line-height: 0.92;
             letter-spacing: -0.03em;
+        }
+
+        .hero-name span {
+            display: block;
             opacity: 0;
-            animation: fadeUp 0.8s 0.35s forwards;
+            clip-path: inset(0 0 100% 0);
+            transform: translateY(60px);
+            animation: clipReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-name .line1 {
+            animation-delay: 0.25s;
         }
 
         .hero-name .line2 {
             display: block;
             -webkit-text-stroke: 1.5px var(--cream);
             color: transparent;
+            animation-delay: 0.4s;
         }
 
         .hero-name .line3 {
             display: block;
             color: var(--acid);
+            animation-delay: 0.55s;
         }
 
         .hero-sub {
@@ -743,6 +756,19 @@
             }
         }
 
+        @keyframes clipReveal {
+            from {
+                opacity: 0;
+                clip-path: inset(0 0 100% 0);
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                clip-path: inset(0 0 0% 0);
+                transform: translateY(0);
+            }
+        }
+
         @keyframes scrollPulse {
 
             0%,
@@ -851,6 +877,92 @@
             color: rgba(200, 255, 0, 0.5);
         }
 
+        /* LENIS SMOOTH SCROLL STYLES */
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overflow: clip;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-smooth iframe {
+            pointer-events: none;
+        }
+
+        /* SCROLL PROGRESS INDICATOR */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--acid), var(--sky), var(--violet));
+            z-index: 1001;
+            pointer-events: none;
+            transition: width 0.1s ease-out;
+        }
+
+        /* STAGGERED ENTRANCES */
+        .reveal-stagger > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in-section.visible .reveal-stagger > *,
+        .fade-in-section.visible.reveal-stagger > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
+        .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
+        .reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }
+        .reveal-stagger > *:nth-child(4) { transition-delay: 0.26s; }
+        .reveal-stagger > *:nth-child(5) { transition-delay: 0.33s; }
+        .reveal-stagger > *:nth-child(6) { transition-delay: 0.4s; }
+        .reveal-stagger > *:nth-child(7) { transition-delay: 0.47s; }
+        .reveal-stagger > *:nth-child(8) { transition-delay: 0.54s; }
+        .reveal-stagger > *:nth-child(9) { transition-delay: 0.61s; }
+        .reveal-stagger > *:nth-child(10) { transition-delay: 0.68s; }
+
+        /* CUSTOM CURSOR HOVER CARD */
+        .cursor-ring.cursor-card-hover {
+            width: 70px !important;
+            height: 70px !important;
+            background: var(--acid) !important;
+            border-color: var(--acid) !important;
+            mix-blend-mode: normal !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cursor-ring.cursor-card-hover::after {
+            content: attr(data-text);
+            color: var(--ink);
+            font-family: 'Syne', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            pointer-events: none;
+        }
+
+        /* 3D CARD TILT STYLING */
+        .work-card, .skill-card {
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.2s, background 0.2s;
+            transform-style: preserve-3d;
+        }
+
         @media (max-width: 900px) {
             nav {
                 padding: 1.2rem 2rem;
@@ -904,6 +1016,8 @@
 
 <body>
 
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursorRing"></div>
 
@@ -922,7 +1036,7 @@
         <div class="hero-bg"></div>
         <p class="hero-tag">✦ Available for Hire — Graphic Designer and Video Editor</p>
         <h1 class="hero-name">
-            Arshin
+            <span class="line1">Arshin</span>
             <span class="line2">Joseph</span>
             <span class="line3">Giril.</span>
         </h1>
@@ -989,7 +1103,7 @@
             <div class="section-label">
                 <div class="label-line"></div><span class="label-text">My Skills</span>
             </div>
-            <div class="skills-grid">
+            <div class="skills-grid reveal-stagger">
                 <div class="skill-card">
                     <div class="skill-icon">🎨</div>
                     <div class="skill-name">Brand Design</div>
@@ -1035,9 +1149,9 @@
             </div>
         </div>
 
-        <div class="works-grid">
+        <div class="works-grid reveal-stagger">
             <!-- Card 1 - wide -->
-            <div class="work-card">
+            <div class="work-card" data-cursor-text="VIEW">
                 <div class="work-visual v1">
                     <img src="assets/fuezo text.jpg" alt="Fuezo Laban">
                 </div>
@@ -1049,7 +1163,7 @@
             </div>
 
             <!-- Card 2 -->
-            <div class="work-card">
+            <div class="work-card" data-cursor-text="PLAY">
                 <div class="work-visual v2">
                     <video src="assets/Final Render (1).mp4" autoplay muted loop playsinline></video>
                 </div>
@@ -1061,7 +1175,7 @@
             </div>
 
             <!-- Card 3 -->
-            <div class="work-card">
+            <div class="work-card" data-cursor-text="VIEW">
                 <div class="work-visual v3">
                     <img src="assets/Eid.jpg" alt="Eid">
 
@@ -1074,7 +1188,7 @@
             </div>
 
             <!-- Card 4 -->
-            <div class="work-card">
+            <div class="work-card" data-cursor-text="VIEW">
                 <div class="work-visual v4">
                     <img src="assets/Logo FUezo.png" alt="Fuezo Laban">
                 </div>
@@ -1086,7 +1200,7 @@
             </div>
 
             <!-- Card 5 -->
-            <div class="work-card slideshow-card">
+            <div class="work-card slideshow-card" data-cursor-text="VIEW">
                 <div class="work-visual v5">
                     <img src="assets/yathra.jpg" class="slide active" alt="Poster">
                     <img src="assets/porsche.jpg" class="slide" alt="Poster 2">
@@ -1106,7 +1220,7 @@
         <div class="section-label">
             <div class="label-line"></div><span class="label-text">Tools I Use</span>
         </div>
-        <div class="tools-inner">
+        <div class="tools-inner reveal-stagger">
             <div class="tool-pill"><span class="tool-emoji">🅰️</span> Adobe Illustrator</div>
             <div class="tool-pill"><span class="tool-emoji">🅿️</span> Adobe Photoshop</div>
             <div class="tool-pill"><span class="tool-emoji">🎬</span> Adobe Premiere Pro</div>
@@ -1119,7 +1233,7 @@
     </section>
 
     <!-- STATS -->
-    <section class="stats fade-in-section">
+    <section class="stats fade-in-section reveal-stagger">
         <div class="stat-item">
             <div class="stat-num">12+</div>
             <div class="stat-label">Projects Completed</div>
@@ -1157,7 +1271,7 @@
             </div>
         </div>
 
-        <div class="contact-form">
+        <div class="contact-form reveal-stagger">
             <div class="form-group">
                 <label class="form-label">Your Name</label>
                 <input type="text" id="contact-name" class="form-input" placeholder="John Doe">
@@ -1192,7 +1306,30 @@
     </footer>
 
     <script>
-        // Custom cursor
+        // 1. Lenis smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Smooth anchor scrolling via Lenis
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target);
+                }
+            });
+        });
+
+        // 2. Custom Cursor
         const cursor = document.getElementById('cursor');
         const ring = document.getElementById('cursorRing');
         let mx = 0, my = 0, rx = 0, ry = 0;
@@ -1209,18 +1346,38 @@
             requestAnimationFrame(animRing);
         })();
 
+        // Cursor Hover effects (scale + custom text)
         document.querySelectorAll('a, button, .work-card, .skill-card, .tool-pill').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                ring.style.width = '56px';
-                ring.style.height = '56px';
+                if (el.hasAttribute('data-cursor-text')) {
+                    const text = el.getAttribute('data-cursor-text');
+                    ring.classList.add('cursor-card-hover');
+                    ring.setAttribute('data-text', text);
+                    cursor.style.opacity = '0';
+                } else {
+                    ring.style.width = '56px';
+                    ring.style.height = '56px';
+                }
             });
             el.addEventListener('mouseleave', () => {
-                ring.style.width = '36px';
-                ring.style.height = '36px';
+                if (el.hasAttribute('data-cursor-text')) {
+                    ring.classList.remove('cursor-card-hover');
+                    ring.removeAttribute('data-text');
+                    cursor.style.opacity = '1';
+                } else {
+                    ring.style.width = '36px';
+                    ring.style.height = '36px';
+                }
             });
         });
 
-        // Scroll fade-in
+        // 3. Scroll Progress Indicator
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        });
+
+        // 4. Staggered Scroll Fade-in Observer
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
@@ -1228,9 +1385,46 @@
                     observer.unobserve(e.target);
                 }
             });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.08 });
 
         document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+
+        // 5. Card 3D Tilt effect
+        document.querySelectorAll('.work-card, .skill-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const dx = x - xc;
+                const dy = y - yc;
+                const maxTilt = 8;
+                const tiltX = -(dy / yc) * maxTilt;
+                const tiltY = (dx / xc) * maxTilt;
+                
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // 6. Magnetic Elements (small interactives)
+        document.querySelectorAll('.social-link, .nav-logo, .nav-links a').forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - (rect.left + rect.width / 2);
+                const y = e.clientY - (rect.top + rect.height / 2);
+                const strength = 10;
+                const mx = (x / rect.width) * strength;
+                const my = (y / rect.height) * strength;
+                el.style.transform = `translate(${mx}px, ${my}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `translate(0, 0)`;
+            });
+        });
 
         // Web3Forms AJAX Submission using user's key
         function sendContactForm() {
