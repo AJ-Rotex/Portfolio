@@ -1307,6 +1307,30 @@
                 gap: 1rem;
             }
         }
+
+        /* PERFORMANCE: lazy portfolio media */
+        .work-visual video.lazy-video {
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .work-visual video.lazy-video.media-ready {
+            opacity: 1;
+        }
+
+        .work-visual.media-loading::after {
+            content: "Loading…";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(245, 240, 232, 0.45);
+            pointer-events: none;
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -1459,7 +1483,8 @@
             <div class="work-card card-wide" data-category="motion" data-media-type="video"
                 data-media-src="assets/Final Render (1).mp4" data-cursor-text="PLAY">
                 <div class="work-visual v2">
-                    <video src="assets/Final Render (1).mp4" autoplay muted loop playsinline></video>
+                    <<video data-src="assets/Final Render (1).mp4" autoplay muted loop playsinline preload="none"
+                        class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Motion Graphic</div>
@@ -1472,7 +1497,8 @@
             <div class="work-card card-wide" data-category="motion" data-media-type="video"
                 data-media-src="assets/MainFortuner.mp4" data-cursor-text="PLAY">
                 <div class="work-visual v1">
-                    <video src="assets/MainFortuner.mp4" autoplay muted loop playsinline></video>
+                    <<video data-src="assets/MainFortuner.mp4" autoplay muted loop playsinline preload="none"
+                        class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edits</div>
@@ -1485,7 +1511,8 @@
             <div class="work-card card-tall" data-category="motion" data-media-type="video"
                 data-media-src="assets/Ktm_final.mp4" data-cursor-text="PLAY">
                 <div class="work-visual v3">
-                    <video src="assets/Ktm_final.mp4" autoplay muted loop playsinline></video>
+                    <<video data-src="assets/Ktm_final.mp4" autoplay muted loop playsinline preload="none"
+                        class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edits</div>
@@ -1498,7 +1525,8 @@
             <div class="work-card card-wide" data-category="motion" data-media-type="video"
                 data-media-src="assets/final.mp4" data-cursor-text="PLAY">
                 <div class="work-visual v4">
-                    <video src="assets/final.mp4" autoplay muted loop playsinline></video>
+                    <<video data-src="assets/final1.mp4" autoplay muted loop playsinline preload="none"
+                        class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edit</div>
@@ -1512,8 +1540,9 @@
                 data-media-src="assets/AQMdlYRlPx1d2YcTibXG2fF_E_YcotNIUBb0SVvg3ahUcaZ0Q2PBalYlmnDP_sdJYWIlNWt.mp4"
                 data-cursor-text="PLAY">
                 <div class="work-visual v5">
-                    <video src="assets/AQMdlYRlPx1d2YcTibXG2fF_E_YcotNIUBb0SVvg3ahUcaZ0Q2PBalYlmnDP_sdJYWIlNWt.mp4"
-                        autoplay muted loop playsinline></video>
+                    <<video
+                        data-src="assets/AQMdlYRlPx1d2YcTibXG2fF_E_YcotNIUBb0SVvg3ahUcaZ0Q2PBalYlmnDP_sdJYWIlNWt.mp4"
+                        autoplay muted loop playsinline preload="none" class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Movie Cuts</div>
@@ -1527,8 +1556,8 @@
                 data-media-src="assets/AQMf8MPwwu4AdBycM29pSX4ISYu5C5irI8qsZOmSnptIb_NVFkF_Egta7Bv3ATL.mp4"
                 data-cursor-text="PLAY">
                 <div class="work-visual v2">
-                    <video src="assets/AQMf8MPwwu4AdBycM29pSX4ISYu5C5irI8qsZOmSnptIb_NVFkF_Egta7Bv3ATL.mp4" autoplay
-                        muted loop playsinline></video>
+                    <<video data-src="assets/AQMf8MPwwu4AdBycM29pSX4ISYu5C5irI8qsZOmSnptIb_NVFkF_Egta7Bv3ATL.mp4"
+                        autoplay muted loop playsinline preload="none" class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edit</div>
@@ -1542,8 +1571,8 @@
                 data-media-src="assets/AQPJkkFIq_j4ZSqrDdaBU2q7wf36ZX2i2zaSlheSjKlEQDfHwiYakx9JAFRsFk3j.mp4"
                 data-cursor-text="PLAY">
                 <div class="work-visual v1">
-                    <video src="assets/AQPJkkFIq_j4ZSqrDdaBU2q7wf36ZX2i2zaSlheSjKlEQDfHwiYakx9JAFRsFk3j.mp4" autoplay
-                        muted loop playsinline></video>
+                    <<video data-src="assets/AQPJkkFIq_j4ZSqrDdaBU2q7wf36ZX2i2zaSlheSjKlEQDfHwiYakx9JAFRsFk3j.mp4"
+                        autoplay muted loop playsinline preload="none" class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edit</div>
@@ -1557,8 +1586,9 @@
                 data-media-src="assets/AQPWFQ_Ltuc38ziD_PP1Ugnjix6hEpQzEfEDB3A6rxJm5HOLpS6heKtLrTV4KhFjm09HD88i.mp4"
                 data-cursor-text="PLAY">
                 <div class="work-visual v3">
-                    <video src="assets/AQPWFQ_Ltuc38ziD_PP1Ugnjix6hEpQzEfEDB3A6rxJm5HOLpS6heKtLrTV4KhFjm09HD88i.mp4"
-                        autoplay muted loop playsinline></video>
+                    <<video
+                        data-src="assets/AQPWFQ_Ltuc38ziD_PP1Ugnjix6hEpQzEfEDB3A6rxJm5HOLpS6heKtLrTV4KhFjm09HD88i.mp4"
+                        autoplay muted loop playsinline preload="none" class="lazy-video"></video>
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Video Edit</div>
@@ -1572,7 +1602,8 @@
             <div class="work-card card-wide" data-category="branding" data-media-type="image"
                 data-media-src="assets/fuezo text.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v1">
-                    <img src="assets/fuezo text.jpg" alt="Fuezo Laban Brand">
+                    <img src="assets/fuezo text.jpg" alt="Fuezo Laban Brand" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Brand Identity</div>
@@ -1585,7 +1616,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/Eid.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v3">
-                    <img src="assets/Eid.jpg" alt="Event Poster — Eid">
+                    <img src="assets/Eid.jpg" alt="Event Poster — Eid" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1598,7 +1630,8 @@
             <div class="work-card card-standard" data-category="branding" data-media-type="image"
                 data-media-src="assets/Logo FUezo.png" data-cursor-text="VIEW">
                 <div class="work-visual v4">
-                    <img src="assets/Logo FUezo.png" alt="Fuezo Laban Logo">
+                    <img src="assets/Logo FUezo.png" alt="Fuezo Laban Logo" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Logo Design</div>
@@ -1611,7 +1644,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/yathra.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v5">
-                    <img src="assets/yathra.jpg" alt="Yathra Festival Poster">
+                    <img src="assets/yathra.jpg" alt="Yathra Festival Poster" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1624,7 +1658,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/porsche.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v1">
-                    <img src="assets/porsche.jpg" alt="Porsche Artwork Poster">
+                    <img src="assets/porsche.jpg" alt="Porsche Artwork Poster" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1637,7 +1672,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/ds.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v2">
-                    <img src="assets/ds.jpg" alt="Creative Graphic Poster">
+                    <img src="assets/ds.jpg" alt="Creative Graphic Poster" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1650,7 +1686,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/Academic counsellor.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v3">
-                    <img src="assets/Academic counsellor.jpg" alt="Academic Counsellor Poster">
+                    <img src="assets/Academic counsellor.jpg" alt="Academic Counsellor Poster" loading="lazy"
+                        decoding="async" fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1663,7 +1700,8 @@
             <div class="work-card card-standard" data-category="branding" data-media-type="image"
                 data-media-src="assets/Artboard 2.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v4">
-                    <img src="assets/Artboard 2.jpg" alt="Creative Brand Artwork">
+                    <img src="assets/Artboard 2.jpg" alt="Creative Brand Artwork" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster</div>
@@ -1676,7 +1714,8 @@
             <div class="work-card card-wide" data-category="social" data-media-type="image"
                 data-media-src="assets/Bike Taxi.png" data-cursor-text="VIEW">
                 <div class="work-visual v5">
-                    <img src="assets/Bike Taxi.png" alt="Bike Taxi Campaign">
+                    <img src="assets/Bike Taxi.png" alt="Bike Taxi Campaign" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Social Media</div>
@@ -1689,7 +1728,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/Cognita Poster1.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v1">
-                    <img src="assets/Cognita Poster1.jpg" alt="Cognita Event Poster">
+                    <img src="assets/Cognita Poster1.jpg" alt="Cognita Event Poster" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Advertising Poster</div>
@@ -1702,7 +1742,8 @@
             <div class="work-card card-wide" data-category="social" data-media-type="image"
                 data-media-src="assets/DM Hiring.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v2">
-                    <img src="assets/DM Hiring.jpg" alt="Digital Marketing Hiring">
+                    <img src="assets/DM Hiring.jpg" alt="Digital Marketing Hiring" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Hiring Poster</div>
@@ -1715,7 +1756,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/Fitness Trainer.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v3">
-                    <img src="assets/Fitness Trainer.jpg" alt="Fitness Trainer Campaign">
+                    <img src="assets/Fitness Trainer.jpg" alt="Fitness Trainer Campaign" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster Design</div>
@@ -1728,7 +1770,8 @@
             <div class="work-card card-standard" data-category="branding" data-media-type="image"
                 data-media-src="assets/Fuezo2.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v4">
-                    <img src="assets/Fuezo2.jpg" alt="Fuezo Brand Mockup">
+                    <img src="assets/Fuezo2.jpg" alt="Fuezo Brand Mockup" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Brand Identity</div>
@@ -1741,7 +1784,8 @@
             <div class="work-card card-wide" data-category="social" data-media-type="image"
                 data-media-src="assets/Hiring.png" data-cursor-text="VIEW">
                 <div class="work-visual v5">
-                    <img src="assets/Hiring.png" alt="We Are Hiring Banner">
+                    <img src="assets/Hiring.png" alt="We Are Hiring Banner" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Poster</div>
@@ -1754,7 +1798,8 @@
             <div class="work-card card-tall" data-category="social" data-media-type="image"
                 data-media-src="assets/Join Poster.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v1">
-                    <img src="assets/Join Poster.jpg" alt="Join Our Team Poster">
+                    <img src="assets/Join Poster.jpg" alt="Join Our Team Poster" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Advertising Poster</div>
@@ -1767,7 +1812,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/SA.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v2">
-                    <img src="assets/SA.jpg" alt="Visual Concept Art">
+                    <img src="assets/SA.jpg" alt="Visual Concept Art" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Advertising Poster</div>
@@ -1780,7 +1826,8 @@
             <div class="work-card card-standard" data-category="branding" data-media-type="image"
                 data-media-src="assets/Speakify Typo.jpg" data-cursor-text="VIEW">
                 <div class="work-visual v3">
-                    <img src="assets/Speakify Typo.jpg" alt="Speakify Typography Art">
+                    <img src="assets/Speakify Typo.jpg" alt="Speakify Typography Art" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Typography</div>
@@ -1793,7 +1840,8 @@
             <div class="work-card card-standard" data-category="branding" data-media-type="image"
                 data-media-src="assets/Speakify.png" data-cursor-text="VIEW">
                 <div class="work-visual v4">
-                    <img src="assets/Speakify.png" alt="Speakify Brand Showcase">
+                    <img src="assets/Speakify.png" alt="Speakify Brand Showcase" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">Hiring Poster</div>
@@ -1806,7 +1854,8 @@
             <div class="work-card card-tall" data-category="poster" data-media-type="image"
                 data-media-src="assets/image.png" data-cursor-text="VIEW">
                 <div class="work-visual v5">
-                    <img src="assets/image.png" alt="Modern Graphic Concept">
+                    <img src="assets/image.png" alt="Modern Graphic Concept" loading="lazy" decoding="async"
+                        fetchpriority="low">
                 </div>
                 <div class="work-overlay">
                     <div class="work-cat">UI Design</div>
@@ -2019,7 +2068,63 @@
             });
         }, { threshold: 0.08 });
 
+
         document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+
+        // 4b. Lazy-load portfolio media.
+        // Videos are NOT downloaded until their cards are near the viewport.
+        // Once loaded, they autoplay only while visible.
+        const lazyVideos = document.querySelectorAll('.work-visual video[data-src]');
+
+        const loadPortfolioVideo = (video) => {
+            if (!video || video.dataset.loaded === 'true') return;
+
+            const src = video.dataset.src;
+            if (!src) return;
+
+            video.dataset.loaded = 'true';
+            video.closest('.work-visual')?.classList.add('media-loading');
+
+            video.src = src;
+            video.load();
+
+            video.addEventListener('loadeddata', () => {
+                video.classList.add('media-ready');
+                video.closest('.work-visual')?.classList.remove('media-loading');
+            }, { once: true });
+
+            video.addEventListener('error', () => {
+                video.closest('.work-visual')?.classList.remove('media-loading');
+            }, { once: true });
+        };
+
+        const lazyVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+
+                if (entry.isIntersecting) {
+                    loadPortfolioVideo(video);
+
+                    if (video.dataset.loaded === 'true') {
+                        video.play().catch(() => { });
+                    }
+                } else if (video.dataset.loaded === 'true') {
+                    video.pause();
+                }
+            });
+        }, {
+            rootMargin: '300px 0px',
+            threshold: 0.12
+        });
+
+        lazyVideos.forEach(video => lazyVideoObserver.observe(video));
+
+        // Also pause videos when their card is hidden by a category filter.
+        const pauseHiddenPortfolioVideos = () => {
+            document.querySelectorAll('.work-card.hide video').forEach(video => {
+                video.pause();
+            });
+        };
 
         // 5. Card 3D Tilt effect
         document.querySelectorAll('.work-card, .skill-card').forEach(card => {
@@ -2080,8 +2185,13 @@
                         }, 50);
                     } else {
                         card.classList.add('hide');
+                        const video = card.querySelector('video');
+                        if (video) video.pause();
                     }
                 });
+
+                // Stop any video that was hidden by the category filter.
+                pauseHiddenPortfolioVideos();
             });
         });
 
@@ -2148,7 +2258,11 @@
             if (mediaType === 'video') {
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
+                lightboxVideo.pause();
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.load();
                 lightboxVideo.src = mediaSrc;
+                lightboxVideo.load();
                 lightboxVideo.onloadedmetadata = () => {
                     if (lightboxRes) lightboxRes.textContent = `Resolution: ${lightboxVideo.videoWidth} × ${lightboxVideo.videoHeight} px`;
                 };
@@ -2171,7 +2285,17 @@
 
         function closeLightbox() {
             lightbox.classList.remove('active');
-            if (lightboxVideo) lightboxVideo.pause();
+
+            if (lightboxVideo) {
+                lightboxVideo.pause();
+                lightboxVideo.removeAttribute('src');
+                lightboxVideo.load();
+            }
+
+            if (lightboxImg) {
+                lightboxImg.removeAttribute('src');
+            }
+
             resetZoom();
         }
 
