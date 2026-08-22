@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Full-screen preview modal with touch controls and media info.
+ * Full-screen preview modal with touch controls, instant video playback, and audio controls.
  */
 export default function Lightbox({ items, index, onClose, onNavigate }) {
   const item = items[index];
@@ -10,10 +10,31 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
   const containerRef = useRef(null);
   const [resolution, setResolution] = useState('');
   const [zoomed, setZoomed] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     setZoomed(false);
     setResolution('');
+  }, [item]);
+
+  // Attempt instant video playback on mount/change
+  useEffect(() => {
+    if (item?.type === 'video' && videoRef.current) {
+      const video = videoRef.current;
+      video.currentTime = 0;
+      video.muted = false;
+      setIsMuted(false);
+
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback to muted playback if browser policy blocks unmuted autoplay
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => {});
+        });
+      }
+    }
   }, [item]);
 
   useEffect(() => {
@@ -72,7 +93,6 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
               controls
               playsInline
               autoPlay
-              muted
               onLoadedMetadata={(e) =>
                 setResolution(`Resolution: ${e.target.videoWidth} × ${e.target.videoHeight} px`)
               }
@@ -92,15 +112,31 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
           <div className="lightbox-cat">{item.cat}</div>
           <div className="lightbox-title">{item.title}</div>
           <div className="lightbox-resolution">{resolution || 'Loading media...'}</div>
-          <button
-            className="lightbox-zoom-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setZoomed((z) => !z);
-            }}
-          >
-            🔍 {zoomed ? 'Fit to Screen' : 'View Original Resolution (1:1)'}
-          </button>
+          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.4rem' }}>
+            {item.type === 'video' && (
+              <button
+                className="lightbox-zoom-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (videoRef.current) {
+                    videoRef.current.muted = !videoRef.current.muted;
+                    setIsMuted(videoRef.current.muted);
+                  }
+                }}
+              >
+                {isMuted ? '🔇 Unmute Sound' : '🔊 Muted: Tap for Audio'}
+              </button>
+            )}
+            <button
+              className="lightbox-zoom-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setZoomed((z) => !z);
+              }}
+            >
+              🔍 {zoomed ? 'Fit to Screen' : 'View Original Resolution (1:1)'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

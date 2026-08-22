@@ -148,6 +148,7 @@
   opacity: 0;
   background: rgba(13, 13, 13, 0);
   transition: opacity 0.3s, background 0.3s;
+  pointer-events: none;
 }
 
 .work-card:hover .work-overlay {
@@ -185,6 +186,7 @@
   font-weight: bold;
   transform: scale(0);
   transition: transform 0.25s;
+  pointer-events: none;
 }
 
 .work-card:hover .work-arrow {

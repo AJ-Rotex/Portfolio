@@ -1,12 +1,9 @@
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import WorkCard from './WorkCard.jsx';
+import Lightbox from './Lightbox.jsx';
 import { works, filters } from '../../data/works.js';
 import { useReveal } from '../../hooks/useReveal.js';
 import './Works.css';
-
-// Code-split: the lightbox (and its video/img zoom logic) is only fetched
-// the first time someone actually opens a card.
-const Lightbox = lazy(() => import('./Lightbox.jsx'));
 
 export default function Works() {
   const { ref, visible } = useReveal();
@@ -20,7 +17,9 @@ export default function Works() {
 
   function openCard(item) {
     const idx = visibleWorks.findIndex((w) => w.id === item.id);
-    setOpenIndex(idx);
+    if (idx !== -1) {
+      setOpenIndex(idx);
+    }
   }
 
   function navigate(delta) {
@@ -63,14 +62,12 @@ export default function Works() {
       </div>
 
       {openIndex !== null && (
-        <Suspense fallback={null}>
-          <Lightbox
-            items={visibleWorks}
-            index={openIndex}
-            onClose={() => setOpenIndex(null)}
-            onNavigate={navigate}
-          />
-        </Suspense>
+        <Lightbox
+          items={visibleWorks}
+          index={openIndex}
+          onClose={() => setOpenIndex(null)}
+          onNavigate={navigate}
+        />
       )}
     </section>
   );
