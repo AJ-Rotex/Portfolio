@@ -1,26 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIsTouchDevice } from '../../hooks/useIsTouchDevice.js';
 
 /**
- * WorkCard component optimized for fast mobile rendering.
- * Uses video posters as instant preview thumbnails, and loads compressed videos
- * lazily as cards approach the viewport.
+ * WorkCard component — plays videos in-place on the page where the user is stayed.
+ * Clicking a video card plays/pauses it with sound directly in the card frame.
  */
 export default function WorkCard({ item, onOpen }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const isTouch = useIsTouchDevice();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     if (item.type !== 'video') return;
     const video = videoRef.current;
     if (!video) return;
 
-    // Respect data-saver mode: if saveData is enabled, leave poster image intact
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     if (conn && conn.saveData) return;
 
-    const margin = isTouch ? '120px 0px' : '300px 0px';
+    const margin = isTouch ? '200px 0px' : '350px 0px';
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,12 +30,13 @@ export default function WorkCard({ item, onOpen }) {
           }
           const playPromise = video.play();
           if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Autoplay policy prevented playback (e.g. low power mode) — poster remains visible
-            });
+            playPromise
+              .then(() => setIsPlaying(true))
+              .catch(() => {});
           }
         } else {
           video.pause();
+          setIsPlaying(false);
         }
       },
       { rootMargin: margin, threshold: 0.1 }
@@ -72,13 +73,60 @@ export default function WorkCard({ item, onOpen }) {
     };
   }, [isTouch]);
 
+  function handleCardClick(e) {
+    if (item.type === 'video') {
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (!video.src) {
+        video.src = item.src;
+      }
+
+      if (video.paused) {
+        video.muted = false;
+        setIsMuted(false);
+        video
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            video.muted = true;
+            setIsMuted(true);
+            video
+              .play()
+              .then(() => setIsPlaying(true))
+              .catch(() => {});
+          });
+      } else {
+        video.pause();
+        setIsPlaying(false);
+      }
+    } else {
+      onOpen(item);
+    }
+  }
+
+  function handleSoundToggle(e) {
+    e.stopPropagation();
+    const video = videoRef.current;
+    if (video) {
+      const newMuted = !video.muted;
+      video.muted = newMuted;
+      setIsMuted(newMuted);
+    }
+  }
+
+  function handleExpand(e) {
+    e.stopPropagation();
+    onOpen(item);
+  }
+
   return (
     <div
       ref={cardRef}
       className={`work-card size-${item.size}${item.hidden ? ' hide' : ''}`}
       data-category={item.category}
-      data-cursor-text={item.cursorText}
-      onClick={() => onOpen(item)}
+      data-cursor-text={item.type === 'video' ? (isPlaying ? 'PAUSE' : 'PLAY') : item.cursorText}
+      onClick={handleCardClick}
     >
       <div className={`work-visual ${item.gradient}`}>
         {item.type === 'video' ? (
@@ -99,11 +147,42 @@ export default function WorkCard({ item, onOpen }) {
           />
         )}
       </div>
+
       <div className="work-overlay">
         <div className="work-cat">{item.cat}</div>
         <div className="work-title-card">{item.title}</div>
       </div>
-      <div className="work-arrow">↗</div>
+
+      {item.type === 'video' ? (
+        <div className="card-video-controls">
+          <button
+            type="button"
+            className="card-ctrl-btn"
+            onClick={handleCardClick}
+            title={isPlaying ? 'Pause Video' : 'Play Video'}
+          >
+            {isPlaying ? '⏸' : '▶'}
+          </button>
+          <button
+            type="button"
+            className="card-ctrl-btn"
+            onClick={handleSoundToggle}
+            title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+          >
+            {isMuted ? '🔇' : '🔊'}
+          </button>
+          <button
+            type="button"
+            className="card-ctrl-btn"
+            onClick={handleExpand}
+            title="Full Screen Preview"
+          >
+            ⛶
+          </button>
+        </div>
+      ) : (
+        <div className="work-arrow">↗</div>
+      )}
     </div>
   );
 }

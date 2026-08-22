@@ -193,6 +193,39 @@
   transform: scale(1);
 }
 
+.card-video-controls {
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 10;
+}
+
+.card-ctrl-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(13, 13, 13, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+.card-ctrl-btn:hover {
+  background: var(--acid);
+  color: var(--ink);
+  border-color: var(--acid);
+  transform: scale(1.1);
+}
+
 @media (max-width: 900px) {
   .works {
     padding: 4rem 1.5rem;
