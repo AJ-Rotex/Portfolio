@@ -2,15 +2,28 @@ import { useEffect, useRef, useState } from 'react';
 import { useIsTouchDevice } from '../../hooks/useIsTouchDevice.js';
 
 /**
- * WorkCard component — plays videos in-place on the page where the user is stayed.
- * Clicking a video card plays/pauses it with sound directly in the card frame.
+ * WorkCard component — clean video card with single active audio enforcement and no button overlays.
+ * Clicking a video card plays/unmutes it in-place and automatically mutes all other videos.
  */
 export default function WorkCard({ item, onOpen }) {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const isTouch = useIsTouchDevice();
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+
+  // Mute this video if another video plays unmuted audio
+  useEffect(() => {
+    if (item.type !== 'video') return;
+
+    function handleActiveAudio(e) {
+      if (e.detail?.id !== item.id && videoRef.current) {
+        videoRef.current.muted = true;
+      }
+    }
+
+    window.addEventListener('portfolio-active-audio', handleActiveAudio);
+    return () => window.removeEventListener('portfolio-active-audio', handleActiveAudio);
+  }, [item.id, item.type]);
 
   useEffect(() => {
     if (item.type !== 'video') return;
@@ -73,7 +86,13 @@ export default function WorkCard({ item, onOpen }) {
     };
   }, [isTouch]);
 
-  function handleCardClick(e) {
+  function notifyActiveAudio() {
+    window.dispatchEvent(
+      new CustomEvent('portfolio-active-audio', { detail: { id: item.id } })
+    );
+  }
+
+  function handleCardClick() {
     if (item.type === 'video') {
       const video = videoRef.current;
       if (!video) return;
@@ -82,15 +101,14 @@ export default function WorkCard({ item, onOpen }) {
         video.src = item.src;
       }
 
-      if (video.paused) {
+      if (video.paused || video.muted) {
         video.muted = false;
-        setIsMuted(false);
+        notifyActiveAudio();
         video
           .play()
           .then(() => setIsPlaying(true))
           .catch(() => {
             video.muted = true;
-            setIsMuted(true);
             video
               .play()
               .then(() => setIsPlaying(true))
@@ -103,21 +121,6 @@ export default function WorkCard({ item, onOpen }) {
     } else {
       onOpen(item);
     }
-  }
-
-  function handleSoundToggle(e) {
-    e.stopPropagation();
-    const video = videoRef.current;
-    if (video) {
-      const newMuted = !video.muted;
-      video.muted = newMuted;
-      setIsMuted(newMuted);
-    }
-  }
-
-  function handleExpand(e) {
-    e.stopPropagation();
-    onOpen(item);
   }
 
   return (
@@ -153,36 +156,7 @@ export default function WorkCard({ item, onOpen }) {
         <div className="work-title-card">{item.title}</div>
       </div>
 
-      {item.type === 'video' ? (
-        <div className="card-video-controls">
-          <button
-            type="button"
-            className="card-ctrl-btn"
-            onClick={handleCardClick}
-            title={isPlaying ? 'Pause Video' : 'Play Video'}
-          >
-            {isPlaying ? '⏸' : '▶'}
-          </button>
-          <button
-            type="button"
-            className="card-ctrl-btn"
-            onClick={handleSoundToggle}
-            title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
-          >
-            {isMuted ? '🔇' : '🔊'}
-          </button>
-          <button
-            type="button"
-            className="card-ctrl-btn"
-            onClick={handleExpand}
-            title="Full Screen Preview"
-          >
-            ⛶
-          </button>
-        </div>
-      ) : (
-        <div className="work-arrow">↗</div>
-      )}
+      <div className="work-arrow">↗</div>
     </div>
   );
 }

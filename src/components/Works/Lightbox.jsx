@@ -151,7 +151,7 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
                     const newMuted = !videoRef.current.muted;
                     videoRef.current.muted = newMuted;
                     setIsMuted(newMuted);
-                    videoRef.current.play().catch(() => {});
+                    videoRef.current.play().catch(() => { });
                   }
                 }}
               >

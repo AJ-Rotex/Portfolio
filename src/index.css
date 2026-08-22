@@ -90,6 +90,7 @@ button {
 }
 
 @media (max-width: 900px) {
+
   .cursor,
   .cursor-ring {
     display: none;
@@ -380,8 +381,6 @@ nav {
   width: max-content;
   white-space: nowrap;
   animation: marquee 18s linear infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 .marquee-item {
@@ -407,38 +406,74 @@ nav {
 /* SHARED SECTION BITS */
 .fade-in-section {
   opacity: 0;
-  transform: translate3d(0, 30px, 0);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
 .fade-in-section.visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translateY(0);
 }
 
-.reveal-stagger > * {
+.reveal-stagger>* {
   opacity: 0;
-  transform: translate3d(0, 25px, 0);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fade-in-section.visible .reveal-stagger > *,
-.fade-in-section.visible.reveal-stagger > * {
+.fade-in-section.visible .reveal-stagger>* {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translateY(0);
 }
-.reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
-.reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
-.reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }
-.reveal-stagger > *:nth-child(4) { transition-delay: 0.26s; }
-.reveal-stagger > *:nth-child(5) { transition-delay: 0.33s; }
-.reveal-stagger > *:nth-child(6) { transition-delay: 0.4s; }
-.reveal-stagger > *:nth-child(7) { transition-delay: 0.47s; }
-.reveal-stagger > *:nth-child(8) { transition-delay: 0.54s; }
-.reveal-stagger > *:nth-child(9) { transition-delay: 0.61s; }
-.reveal-stagger > *:nth-child(10) { transition-delay: 0.68s; }
+
+/* Covers the case where an element has BOTH classes at once (e.g. the
+   Stats section) — the rule above only matches when reveal-stagger is a
+   descendant of fade-in-section.visible, which isn't true when they're
+   the same element, so without this the stat numbers never revealed. */
+.fade-in-section.visible.reveal-stagger>* {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger>*:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.reveal-stagger>*:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.reveal-stagger>*:nth-child(3) {
+  transition-delay: 0.19s;
+}
+
+.reveal-stagger>*:nth-child(4) {
+  transition-delay: 0.26s;
+}
+
+.reveal-stagger>*:nth-child(5) {
+  transition-delay: 0.33s;
+}
+
+.reveal-stagger>*:nth-child(6) {
+  transition-delay: 0.4s;
+}
+
+.reveal-stagger>*:nth-child(7) {
+  transition-delay: 0.47s;
+}
+
+.reveal-stagger>*:nth-child(8) {
+  transition-delay: 0.54s;
+}
+
+.reveal-stagger>*:nth-child(9) {
+  transition-delay: 0.61s;
+}
+
+.reveal-stagger>*:nth-child(10) {
+  transition-delay: 0.68s;
+}
 
 .section-label {
   display: flex;
@@ -762,38 +797,72 @@ footer {
 
 /* ANIMATIONS */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translate3d(0, 30px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes clipReveal {
-  from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 60px, 0); }
-  to { opacity: 1; clip-path: inset(0 0 0% 0); transform: translate3d(0, 0, 0); }
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(60px);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0% 0);
+    transform: translateY(0);
+  }
 }
 
 @keyframes scrollPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
 
 @keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* Fallback for mobile devices to guarantee all sections display animated or visible */
-@media (max-width: 900px) {
-  .hero-name .line1,
-  .hero-name .line2,
-  .hero-name .line3,
-  .hero-sub,
-  .hero-cta,
-  .hero-scroll {
-    will-change: opacity, transform;
+/* Respect reduced-motion preference — the original site had no such guard */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
