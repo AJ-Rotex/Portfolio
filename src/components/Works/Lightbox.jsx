@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Full-screen preview modal with touch controls, instant video playback, and audio controls.
+ * Full-screen preview modal with touch controls, body scroll lock, instant video playback, and audio controls.
  */
 export default function Lightbox({ items, index, onClose, onNavigate }) {
   const item = items[index];
@@ -11,6 +11,20 @@ export default function Lightbox({ items, index, onClose, onNavigate }) {
   const [resolution, setResolution] = useState('');
   const [zoomed, setZoomed] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+
+  // Lock background body & document scrolling while Lightbox modal is open
+  useEffect(() => {
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevDocOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevDocOverflow;
+    };
+  }, []);
 
   useEffect(() => {
     setZoomed(false);

@@ -247,6 +247,8 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 .lightbox-content {
