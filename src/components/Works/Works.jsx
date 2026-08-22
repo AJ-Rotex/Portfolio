@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import WorkCard from './WorkCard.jsx';
 import Lightbox from './Lightbox.jsx';
 import { works, filters } from '../../data/works.js';
@@ -61,14 +62,16 @@ export default function Works() {
         ))}
       </div>
 
-      {openIndex !== null && (
-        <Lightbox
-          items={visibleWorks}
-          index={openIndex}
-          onClose={() => setOpenIndex(null)}
-          onNavigate={navigate}
-        />
-      )}
+      {openIndex !== null &&
+        createPortal(
+          <Lightbox
+            items={visibleWorks}
+            index={openIndex}
+            onClose={() => setOpenIndex(null)}
+            onNavigate={navigate}
+          />,
+          document.body
+        )}
     </section>
   );
 }

@@ -3,10 +3,12 @@ export default function Hero({ lenisRef }) {
     e.preventDefault();
     const target = document.getElementById(id);
     if (!target) return;
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(target);
+
+    if (lenisRef?.current) {
+      lenisRef.current.scrollTo(target, { offset: -60 });
     } else {
-      target.scrollIntoView({ behavior: 'smooth' });
+      const y = target.getBoundingClientRect().top + window.scrollY - 60;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }
 
