@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Adds a "visible" class once an element scrolls into view, then stops
- * observing it (one-shot reveal — matches the original site's behavior).
- *
- * threshold is low and rootMargin trims the bottom edge of the viewport
- * (rather than requiring 8% of the element inside it) so tall sections on
- * short mobile viewports reveal as soon as they start appearing.
+ * Scroll reveal hook optimized for mobile and desktop viewports.
+ * Triggers animations as soon as elements approach the viewport.
  */
 export function useReveal(threshold = 0.01) {
   const ref = useRef(null);
@@ -15,6 +11,12 @@ export function useReveal(threshold = 0.01) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // Immediate check if element is already within or near viewport on mount
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 100) {
+      setVisible(true);
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -25,7 +27,7 @@ export function useReveal(threshold = 0.01) {
           }
         });
       },
-      { threshold, rootMargin: '0px 0px -10% 0px' }
+      { threshold, rootMargin: '120px 0px 80px 0px' }
     );
 
     observer.observe(el);

@@ -380,6 +380,8 @@ nav {
   width: max-content;
   white-space: nowrap;
   animation: marquee 18s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .marquee-item {
@@ -405,33 +407,27 @@ nav {
 /* SHARED SECTION BITS */
 .fade-in-section {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translate3d(0, 30px, 0);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .fade-in-section.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .reveal-stagger > * {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 25px, 0);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.fade-in-section.visible .reveal-stagger > * {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Covers the case where an element has BOTH classes at once (e.g. the
-   Stats section) — the rule above only matches when reveal-stagger is a
-   descendant of fade-in-section.visible, which isn't true when they're
-   the same element, so without this the stat numbers never revealed. */
+.fade-in-section.visible .reveal-stagger > *,
 .fade-in-section.visible.reveal-stagger > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
 .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
@@ -766,13 +762,13 @@ footer {
 
 /* ANIMATIONS */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate3d(0, 30px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes clipReveal {
-  from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(60px); }
-  to { opacity: 1; clip-path: inset(0 0 0% 0); transform: translateY(0); }
+  from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 60px, 0); }
+  to { opacity: 1; clip-path: inset(0 0 0% 0); transform: translate3d(0, 0, 0); }
 }
 
 @keyframes scrollPulse {
@@ -781,8 +777,8 @@ footer {
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes spin {
@@ -790,14 +786,14 @@ footer {
   to { transform: rotate(360deg); }
 }
 
-/* Respect reduced-motion preference — the original site had no such guard */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+/* Fallback for mobile devices to guarantee all sections display animated or visible */
+@media (max-width: 900px) {
+  .hero-name .line1,
+  .hero-name .line2,
+  .hero-name .line3,
+  .hero-sub,
+  .hero-cta,
+  .hero-scroll {
+    will-change: opacity, transform;
   }
 }
