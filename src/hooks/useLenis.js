@@ -2,10 +2,8 @@ import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
 /**
- * Sets up Lenis smooth scrolling once for the whole app and returns a ref
- * to the instance so components (like anchor links) can call scrollTo().
- * Pass enabled=false to skip it entirely (e.g. on touch devices, where
- * Lenis fights with native momentum scrolling and just costs JS time).
+ * Sets up Lenis smooth scrolling once for the whole app and exposes
+ * window.__lenis so modals can pause/resume scrolling cleanly.
  */
 export function useLenis(enabled = true) {
   const lenisRef = useRef(null);
@@ -19,6 +17,7 @@ export function useLenis(enabled = true) {
       smoothWheel: true,
     });
     lenisRef.current = lenis;
+    window.__lenis = lenis;
 
     let frameId;
     function raf(time) {
@@ -30,6 +29,9 @@ export function useLenis(enabled = true) {
     return () => {
       cancelAnimationFrame(frameId);
       lenis.destroy();
+      if (window.__lenis === lenis) {
+        window.__lenis = null;
+      }
     };
   }, [enabled]);
 
