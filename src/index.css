@@ -425,7 +425,6 @@ nav {
   transform: translateY(0);
 }
 
-<<<<<<< HEAD
 /* Covers the case where an element has BOTH classes at once (e.g. the
    Stats section) — the rule above only matches when reveal-stagger is a
    descendant of fade-in-section.visible, which isn't true when they're
@@ -434,9 +433,6 @@ nav {
   opacity: 1;
   transform: translateY(0);
 }
-
-=======
->>>>>>> c509cc8331c463257c61a71435b6aae3fe43567b
 .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
 .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
 .reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }

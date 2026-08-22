@@ -117,19 +117,6 @@
   object-fit: cover;
   object-position: center top;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-<<<<<<< HEAD
-=======
-}
-
-/* Videos start invisible (showing the gradient placeholder underneath) and
-   fade in only once real frame data has decoded — avoids a flash of a
-   black/blank frame while the file is still loading. */
-.work-visual video {
-  opacity: 0;
-}
-
-.work-visual video.video-ready {
->>>>>>> c509cc8331c463257c61a71435b6aae3fe43567b
   opacity: 1;
 }
 
@@ -206,11 +193,7 @@
 
 @media (max-width: 900px) {
   .works {
-<<<<<<< HEAD
     padding: 4rem 1.5rem;
-=======
-    padding: 4rem 2rem;
->>>>>>> c509cc8331c463257c61a71435b6aae3fe43567b
   }
 
   .works-grid {
@@ -229,7 +212,6 @@
   .work-card.size-wide { aspect-ratio: 16 / 9; }
   .work-card.size-tall { aspect-ratio: 3 / 4; }
   .work-card.size-standard { aspect-ratio: 1 / 1; }
-<<<<<<< HEAD
 
   /* Always show overlay gradient & card details on mobile since hover is unavailable */
   .work-overlay {
@@ -250,8 +232,6 @@
   .lightbox-nav {
     cursor: pointer !important;
   }
-=======
->>>>>>> c509cc8331c463257c61a71435b6aae3fe43567b
 }
 
 /* LIGHTBOX */
